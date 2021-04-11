@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "nthudmod",
+  "version": "${version}",
+
+  "name": "NT Hud Mod",
+  "description": "RPG HUD mod",
+  "authors": [
+    "NeumimTo"
+  ],
+  "contact": {
+    "sources": "https://github.com/NeumimTo/HudMod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.fabricmc.example.NTHudMod"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
