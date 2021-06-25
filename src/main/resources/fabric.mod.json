@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "net.fabricmc.example.NTHudMod"
+    ],
+    "client": [
+      "net.fabricmc.example.NTHudMod"
     ]
   },
   "mixins": [

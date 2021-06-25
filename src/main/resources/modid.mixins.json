@@ -7,7 +7,9 @@
   ],
   "client": [
     "InGameHudMixin",
-    "ClientPlayNetworkHandlerMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "EntityRenderDispatcherMixin",
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

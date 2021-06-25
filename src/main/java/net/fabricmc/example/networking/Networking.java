@@ -4,9 +4,9 @@ package net.fabricmc.example.networking;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.example.NTHudMod;
+import net.fabricmc.example.models.renderers.ModelData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
@@ -59,6 +59,12 @@ public class Networking {
                     NTHudMod.getInstance().getCooldowns().put(new Identifier(split[2]), Long.parseLong(split[1]));
                     NTHudMod.log("Received HUD packet " + message);
                     break;
+                case SET_MODEL:
+                    NTHudMod.getInstance().getCustomModels().put(split[1], new ModelData(split[2], split[3], split[4]));
+                    NTHudMod.log("Received set model packet " + message);
+                    break;
+                case ADD_MODEL:
+                case PLAY_ANIMATION:
                 default:
                     NTHudMod.err("Unknown message " + message);
             }

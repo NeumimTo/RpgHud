@@ -1,7 +1,10 @@
 package net.fabricmc.example.networking;
 
 public enum HudPacketType {
-    CD("cd");
+    CD("cd"),
+    ADD_MODEL("am"),
+    SET_MODEL("sm"),
+    PLAY_ANIMATION("pa");
 
     private final String ident;
     HudPacketType(String ident) {
