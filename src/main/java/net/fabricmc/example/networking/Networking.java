@@ -7,10 +7,17 @@ import net.fabricmc.example.NTHudMod;
 import net.fabricmc.example.models.renderers.ModelData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.file.AnimationFile;
+import software.bernie.geckolib3.file.AnimationFileLoader;
+import software.bernie.geckolib3.file.GeoModelLoader;
+import software.bernie.geckolib3.geo.render.built.GeoModel;
+import software.bernie.geckolib3.resource.GeckoLibCache;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 public class Networking {
 
@@ -53,7 +60,7 @@ public class Networking {
         try {
             String[] split = message.split(";");
             String type = split[0];
-            HudPacketType hudPacketType = HudPacketType.valueOf(type.toUpperCase());
+            HudPacketType hudPacketType = HudPacketType.byIdentification(type);
             switch (hudPacketType) {
                 case CD:
                     NTHudMod.getInstance().getCooldowns().put(new Identifier(split[2]), Long.parseLong(split[1]));
@@ -61,9 +68,18 @@ public class Networking {
                     break;
                 case SET_MODEL:
                     NTHudMod.getInstance().getCustomModels().put(split[1], new ModelData(split[2], split[3], split[4]));
+                    Identifier modelId = new Identifier("minecraft", split[4]);
+                    GeoModel geoModel = new GeoModelLoader().loadModel(MinecraftClient.getInstance().getResourceManager(), modelId);
+                    GeckoLibCache.getInstance().getGeoModels().put(modelId, geoModel);
+
+
+                    Identifier animId = new Identifier("minecraft", split[3]);
+                    AnimationFile animationFile = new AnimationFileLoader().loadAllAnimations(GeckoLibCache.getInstance().parser, animId, MinecraftClient.getInstance().getResourceManager());
+                    GeckoLibCache.getInstance().getAnimations().put(animId, animationFile);
                     NTHudMod.log("Received set model packet " + message);
                     break;
-                case ADD_MODEL:
+                case REMOVE_MODELS:
+                    NTHudMod.getInstance().getCustomModels().clear();
                 case PLAY_ANIMATION:
                 default:
                     NTHudMod.err("Unknown message " + message);

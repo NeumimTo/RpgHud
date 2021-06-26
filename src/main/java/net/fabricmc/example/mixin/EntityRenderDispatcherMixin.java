@@ -15,7 +15,7 @@ public abstract class EntityRenderDispatcherMixin {
 
     @Inject(method = "getRenderer(Lnet/minecraft/entity/Entity;)Lnet/minecraft/client/render/entity/EntityRenderer;", at = @At(value = "HEAD"), cancellable = true)
     public <T extends Entity> void onGetRenderer(T entity, CallbackInfoReturnable<EntityRenderer> callbackInfoReturnable) {
-        if (entity.getType() == EntityType.ARMOR_STAND /*&& NTHudMod.getInstance().getCustomModels().containsKey(entity.getUuidAsString())*/) {
+        if (NTHudMod.getInstance().getCustomModels().containsKey(entity.getUuidAsString())) {
             callbackInfoReturnable.setReturnValue(NTHudMod.customArmorStandRenderer);
         }
     }
