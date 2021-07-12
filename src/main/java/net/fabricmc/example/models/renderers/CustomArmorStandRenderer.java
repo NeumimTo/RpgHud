@@ -1,20 +1,17 @@
 package net.fabricmc.example.models.renderers;
 
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import software.bernie.example.client.model.entity.ReplacedCreeperModel;
-import software.bernie.example.entity.ReplacedCreeperEntity;
 import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.renderer.geo.GeoReplacedEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoReplacedEntityRenderer;
 
 public class CustomArmorStandRenderer extends GeoReplacedEntityRenderer {
     public Entity currentEntity;
 
-    public CustomArmorStandRenderer(EntityRenderDispatcher renderManager, CustomArmorStandModelProvider modelProvider) {
-        super(renderManager, modelProvider, new CustomArmorStandEntity());
+    public CustomArmorStandRenderer(EntityRendererFactory.Context context, CustomArmorStandModelProvider modelProvider) {
+        super(context, modelProvider, new CustomArmorStandEntity());
         modelProvider.renderer = this;
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -110,18 +111,18 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
 
     private static void drawTexturedQuadTransparent(Matrix4f matrices, int x0, int x1, int y0, int y1, int z, float u0, float u1, float v0, float v1) {
-        RenderSystem.enableAlphaTest();
+        //RenderSystem.enableAlphaTest();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder b = tess.getBuffer();
-        b.begin(GL11.GL_QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
+        b.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
         b.vertex(matrices, x0, y1, z).color(1, 1, 1, 0.5F).texture(u0, v1).next();
         b.vertex(matrices, x1, y1, z).color(1, 1, 1, 0.5F).texture(u1, v1).next();
         b.vertex(matrices, x1, y0, z).color(1, 1, 1, 0.5F).texture(u1, v0).next();
         b.vertex(matrices, x0, y0, z).color(1, 1, 1, 0.5F).texture(u0, v0).next();
         tess.draw();
-        RenderSystem.disableAlphaTest();
+        //RenderSystem.disableAlphaTest();
         RenderSystem.disableBlend();
 
         //BufferRenderer.draw(bufferBuilder);
