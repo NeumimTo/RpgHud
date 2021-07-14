@@ -14,6 +14,12 @@ Differences between ModelEngine:
 - NtHud is able to achieve much smoother animation
 - ModelEngine is not free nor opensource
 
+=== Making new models === 
+
+Go to https://www.blockbench.net/ and choose Bedrock model.  
+
+todo
+
 === Protocol ===
 
 Communication between server and client is done via plugin channel `nth:gui`
