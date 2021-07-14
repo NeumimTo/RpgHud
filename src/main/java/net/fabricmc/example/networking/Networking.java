@@ -81,6 +81,7 @@ public class Networking {
                 case REMOVE_MODELS:
                     NTHudMod.getInstance().getCustomModels().clear();
                 case PLAY_ANIMATION:
+                    NTHudMod.getInstance().getAnimations().put(split[1], split[2]);
                 default:
                     NTHudMod.err("Unknown message " + message);
             }

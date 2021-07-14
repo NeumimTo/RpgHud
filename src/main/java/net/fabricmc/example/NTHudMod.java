@@ -2,18 +2,17 @@ package net.fabricmc.example;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.models.renderers.CustomArmorStandModelProvider;
-import net.fabricmc.example.models.renderers.CustomArmorStandRenderer;
+import net.fabricmc.example.models.renderers.DisguisedEntityRenderer;
 import net.fabricmc.example.models.renderers.ModelData;
 import net.fabricmc.example.networking.Networking;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.example.networking.NetworkingArgumentType;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.command.argument.MessageArgumentType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
-import software.bernie.example.client.renderer.entity.ReplacedCreeperRenderer;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 import software.bernie.geckolib3.GeckoLib;
 
 import java.util.HashMap;
@@ -22,13 +21,19 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
+
 public class NTHudMod implements ModInitializer, ClientModInitializer {
 
 	private Map<Identifier, Long> currentCooldowns = new TreeMap<>();
 	private Map<String, ModelData> customModels = new HashMap<>();
+	private Map<String, String> animations = new HashMap<>();
+
 	private static NTHudMod instance;
-	public static CustomArmorStandRenderer customArmorStandRenderer;
+	public static DisguisedEntityRenderer disguisedEntityRenderer;
 	private static final Logger logger = Logger.getLogger("NTHud");
+
 
 	@Override
 	public void onInitialize() {
@@ -72,5 +77,32 @@ public class NTHudMod implements ModInitializer, ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 
+		//todo remove
+		ClientCommandManager.DISPATCHER.register(
+				literal("nthud")
+					.then(argument("type", NetworkingArgumentType.type()).
+							then(argument("data", MessageArgumentType.message())
+							.executes(context -> {
+								MinecraftClient client = MinecraftClient.getInstance();
+								HitResult hit = client.crosshairTarget;
+
+								if (hit == null) {
+									return 0;
+								}
+								if (hit.getType() == HitResult.Type.ENTITY) {
+									EntityHitResult entityHit = (EntityHitResult) hit;
+									Entity entity = entityHit.getEntity();
+									var data = context.getArgument("data", MessageArgumentType.MessageFormat.class);
+									Networking.processChannelMessage(data.getContents().replaceAll("%uuid%", entity.getUuidAsString()));
+									return 0;
+								} else {
+									return 0;
+								}
+							}))));
+
+	}
+
+	public Map<String, String> getAnimations() {
+		return animations;
 	}
 }

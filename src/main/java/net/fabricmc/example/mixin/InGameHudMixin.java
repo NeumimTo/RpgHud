@@ -1,6 +1,7 @@
 package net.fabricmc.example.mixin;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.example.NTHudMod;
 import net.fabricmc.example.configuration.RenderLocation;

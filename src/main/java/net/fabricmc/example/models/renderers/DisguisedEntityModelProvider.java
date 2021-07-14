@@ -5,13 +5,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class CustomArmorStandModelProvider extends AnimatedGeoModel {
+public class DisguisedEntityModelProvider extends AnimatedGeoModel {
 
-    public CustomArmorStandRenderer renderer;
-
-    String textureLocation = "gecko/bat.png";
-    String animationLocation = "gecko/bat.animation.json";
-    String modelLocation = "gecko/bat.geo.json";
+    public DisguisedEntityRenderer renderer;
 
     @Override
     public Identifier getModelLocation(Object object) {
@@ -33,5 +29,4 @@ public class CustomArmorStandModelProvider extends AnimatedGeoModel {
         ModelData modelData = NTHudMod.getInstance().getCustomModels().get(currentEntity.getUuidAsString());
         return new Identifier("minecraft", modelData.animationFileLocation);
     }
-
 }
